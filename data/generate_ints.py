@@ -34,3 +34,20 @@ np.savetxt("V.txt",V)
 # calculate two electron integrals
 eri = mol.intor('cint2e_sph', aosym='s8')
 np.savetxt("eri.txt",eri)
+# get number of atomic orbitals
+num_ao = mol.nao_nr()
+num_ao = np.array([num_ao])
+np.savetxt("num_ao.txt",num_ao)
+# get number of electrons
+num_elec_alpha, num_elec_beta = mol.nelec
+num_elec_alpha = np.array([num_elec_alpha])
+num_elec_beta = np.array([num_elec_beta])
+np.savetxt("num_elec_alpha.txt",num_elec_alpha)
+np.savetxt("num_elec_beta.txt",num_elec_beta)
+# set convergence criteria
+iteration_max = np.array([100])
+convergence_E = np.array([1e-9])
+convergence_DM = np.array([1e-5])
+np.savetxt("iteration_max.txt",iteration_max)
+np.savetxt("convergence_E.txt",convergence_E)
+np.savetxt("convergence_DM.txt",convergence_DM)
