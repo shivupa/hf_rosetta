@@ -40,8 +40,12 @@ iteration_rmsc_dm = 0.0
 converged = False
 exceeded_iterations = False
 
+s, L = spla.eigh(S)
+X = np.zeros_like(L)
+for i in range(len(s)):
+    X[i,i] = 1.0/np.sqrt(s[i])
+X = np.dot(L,np.dot(X,L.T))
 H = T + V
-
 while (not converged and not exceeded_iterations):
     # store last iteration and increment counters
     iteration_num += 1
@@ -49,6 +53,7 @@ while (not converged and not exceeded_iterations):
     D_last = np.copy(D)
     # form G matrix
     G = np.zeros((num_ao, num_ao))
+
     for i in range(num_ao):
         for j in range(num_ao):
             for k in range(num_ao):
@@ -57,8 +62,10 @@ while (not converged and not exceeded_iterations):
                                           (eri[idx4(i, k, j, l)]))
     # build fock matrix
     F = H + G
+    F_prime = X @ F @ X
     # solve the generalized eigenvalue problem
-    E_orbitals, C = spla.eigh(F, S)
+    E_orbitals, C_prime = spla.eigh(F_prime)
+    C = X @ C_prime
     # compute new density matrix
     D = np.zeros((num_ao, num_ao))
     for i in range(num_ao):
@@ -78,4 +85,4 @@ while (not converged and not exceeded_iterations):
 
 E_total = E_elec + E_nuc
 
-print("{:^20.15f}".format(E_total))
+print("{:>20.15f}".format(E_total))
