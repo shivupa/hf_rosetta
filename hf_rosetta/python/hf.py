@@ -63,7 +63,7 @@ while (not converged and not exceeded_iterations):
     # build fock matrix
     F = H + G
     F_prime = X @ F @ X
-    # solve the generalized eigenvalue problem
+    # solve the eigenvalue problem
     E_orbitals, C_prime = spla.eigh(F_prime)
     C = X @ C_prime
     # compute new density matrix

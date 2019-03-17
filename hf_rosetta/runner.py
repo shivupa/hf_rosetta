@@ -25,6 +25,12 @@ def cpp():
     runtime = time.time() - runtime
     print_output("C++",result,runtime)
 
+def julia():
+    runtime = time.time()
+    result = subprocess.run("./run.sh".split(), stdout=subprocess.PIPE, shell=True, cwd="./julia/")
+    runtime = time.time() - runtime
+    print_output("Julia",result,runtime)
+
 def print_header():
     header = "\n______ ________                           __________        \n___  /____  __/  ___________________________  /__  /______ _\n__  __ \_  /_    __  ___/  __ \_  ___/  _ \  __/  __/  __ `/\n_  / / /  __/    _  /   / /_/ /(__  )/  __/ /_ / /_ / /_/ / \n/_/ /_//_/       /_/    \____//____/ \___/\__/ \__/ \__,_/  \n\n"
     for line in header.splitlines():
@@ -37,22 +43,39 @@ def print_header():
     for line in message_list:
         print("{:^79}".format("{:<40}".format(line)))
 
-if __name__ == "__main__":
+def run_all():
+    python()
+    print("{:#<79}".format("")) 
+    cpp()
+    print("{:#<79}".format("")) 
+    julia()
+
+def main(languages):
     print("{:#<79}".format("")) 
     print_header()
     print("{:#<79}".format("")) 
     print("Choose a program:")
-    print("\t1. Python")
-    print("\t2. C++")
-    print("\t3. All")
-    program = (int)(input("Enter a value: "))
+    for i,key in enumerate(languages):
+        print("\t{}. {}".format(i+1,key))
+    print("\t{}. {}".format(len(languages)+1,"All"))
+    program = (int)(input("Enter a value: ")) - 1
     print("{:#<79}".format("")) 
-    if  program == 1:
+    if program < len(languages):
+        program = languages[program] 
+    else:
+        program = "All"
+    
+    if program == "Python":
         python()
-    elif  program == 2:
+    if program == "C++":
         cpp()
-    elif program == 3:
-        python()
-        print("{:#<79}".format("")) 
-        cpp()
+    if program == "Julia":
+        julia()
+    if program == "All":
+        run_all()
     print("{:#<79}".format("")) 
+        
+
+if __name__ == "__main__":
+    languages = ["Python", "C++", "Julia" ]
+    main(languages)
