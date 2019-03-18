@@ -1,0 +1,46 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Preamble
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[12pt]{article}
+\input{header.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\fancyhf{}
+\chead{Shiv Upadhyay}
+\rhead{\today}
+\lhead{HF notes}
+\cfoot{Page \thepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Main
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{HF notes}
+\date{\today}
+\author{Shiv Upadhyay}
+\begin{document}
+\maketitle
+
+Here, we will be preforming the Hartree-Fock self consistent field method for a water molecule in the cc-pVDZ method. 
+This method finds mean field solution to the electronic structure Hamiltonian. 
+
+\section{Load Data}
+\begin{enumerate}
+\item Load the convergence criteria: the maximum iterations \texttt{data/iteration\_max.txt}, convergence of density matrix \texttt{data/convergence\_DM.txt}, and convergence of the energy \texttt{convergence\_E.txt}. The Hartree-Fock method is an iterative method and these decide when the method has converged. We'll talk more about these below.
+\item Load in the integrals. These integrals are the overlap \texttt{data/S.txt}, the kinetic \texttt{data/T.txt}, the nuclear attraction \texttt{data/V.txt}, and the electron repulsion integrals \texttt{data/eri.txt}. These are real-valued integrals over gaussian fucntions.
+\item Load in the nuclear repulsion energy \texttt{data/E\_nuc.txt}, the number of electrons alpha \texttt{data/num\_elec\_alpha.txt}, the number of electrons beta \texttt{data/num\_elec\_beta.txt}, and the number of atomic orbitals \texttt{data/num\_ao.txt}.
+\end{enumerate}
+
+\section{Load Data}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Citations
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\bibliographystyle{precomp.bst}
+\bibliography{precomp.bib}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% End
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
