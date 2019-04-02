@@ -18,18 +18,28 @@ def python():
     runtime = time.time() - runtime
     print_output("Python",result,runtime)
 
-def cpp():
-    result = subprocess.run("./build.sh".split(), stdout=subprocess.PIPE, shell=True, cwd="./c++/")
+def cpp_eigen():
+    result = subprocess.run("./build.sh".split(), stdout=subprocess.PIPE, shell=True, cwd="./c++_eigen/")
     runtime = time.time()
-    result = subprocess.run("./run.sh".split(), stdout=subprocess.PIPE, shell=True, cwd="./c++/")
+    result = subprocess.run("./run.sh".split(), stdout=subprocess.PIPE, shell=True, cwd="./c++_eigen/")
     runtime = time.time() - runtime
-    print_output("C++",result,runtime)
+    print_output("C++ Eigen",result,runtime)
+
+def cpp_xtensor():
+    result = subprocess.run("./build.sh".split(), stdout=subprocess.PIPE, shell=True, cwd="./c++_xtensor/")
+    runtime = time.time()
+    result = subprocess.run("./run.sh".split(), stdout=subprocess.PIPE, shell=True, cwd="./c++_xtensor/")
+    runtime = time.time() - runtime
+    print_output("C++ xtensor",result,runtime)
 
 def julia():
     runtime = time.time()
     result = subprocess.run("./run.sh".split(), stdout=subprocess.PIPE, shell=True, cwd="./julia/")
     runtime = time.time() - runtime
     print_output("Julia",result,runtime)
+
+def clean():
+    result = subprocess.run("./clean.sh".split(), stdout=subprocess.PIPE, shell=True)
 
 def print_header():
     header = "\n______ ________                           __________        \n___  /____  __/  ___________________________  /__  /______ _\n__  __ \_  /_    __  ___/  __ \_  ___/  _ \  __/  __/  __ `/\n_  / / /  __/    _  /   / /_/ /(__  )/  __/ /_ / /_ / /_/ / \n/_/ /_//_/       /_/    \____//____/ \___/\__/ \__/ \__,_/  \n\n"
@@ -38,44 +48,48 @@ def print_header():
     print("")
     print("{:^79}".format("Shiv Upadhyay"))
     print("")
-    message = "About: HF Rosetta implements the Hartree Fock method in different languages. This is primarily for pedagogical purposes rather than efficiency so don't take the runtimes too seriously."
+    message = "About: HF Rosetta implements the Hartree Fock method in different languages. This is primarily for pedagogical purposes rather than efficiency so don't take the run times too seriously."
     message_list = tw.wrap(message, 40)
     for line in message_list:
         print("{:^79}".format("{:<40}".format(line)))
 
 def run_all():
     python()
-    print("{:#<79}".format("")) 
-    cpp()
-    print("{:#<79}".format("")) 
+    print("{:#<79}".format(""))
+    cpp_eigen()
+    print("{:#<79}".format(""))
+    cpp_xtensor()
+    print("{:#<79}".format(""))
     julia()
 
 def main(languages):
-    print("{:#<79}".format("")) 
+    print("{:#<79}".format(""))
     print_header()
-    print("{:#<79}".format("")) 
+    print("{:#<79}".format(""))
     print("Choose a program:")
     for i,key in enumerate(languages):
         print("\t{}. {}".format(i+1,key))
     print("\t{}. {}".format(len(languages)+1,"All"))
     program = (int)(input("Enter a value: ")) - 1
-    print("{:#<79}".format("")) 
-    if program < len(languages):
-        program = languages[program] 
-    else:
-        program = "All"
-    
+    print("{:#<79}".format(""))
+    try:
+        program = languages[program]
+    except:
+        raise Exception("Selection not recognized")
     if program == "Python":
         python()
-    if program == "C++":
-        cpp()
+    if program == "C++ eigen":
+        cpp_eigen()
+    if program == "C++ xtensor":
+        cpp_xtensor()
     if program == "Julia":
         julia()
+    if program == "Clean":
+        clean()
     if program == "All":
         run_all()
-    print("{:#<79}".format("")) 
-        
+    print("{:#<79}".format(""))
 
 if __name__ == "__main__":
-    languages = ["Python", "C++", "Julia" ]
+    languages = ["Python", "C++ eigen", "C++ xtensor", "Julia","All","Clean"]
     main(languages)

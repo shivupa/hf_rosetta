@@ -22,13 +22,6 @@ void load_double(std::vector<double> &in, std::string filename) {
   std::ifstream input_file(filename);
   double temp_val;
   std::string line;
-  // while (std::getline(input_file, line)) {
-  //   std::istringstream ss(line);
-  //   while (ss >> temp_val){
-  //     temp.push_back(temp_val);
-  //   }
-  //   in.push_back(temp);
-  // }
   while (std::getline(input_file, line)) {
     std::istringstream ss(line);
     while (ss >> temp_val) {
@@ -62,7 +55,6 @@ int main(int argc, char const *argv[]) {
   load_int_scalar(iteration_max, "../../data/iteration_max.txt");
   load_int_scalar(num_ao, "../../data/num_ao.txt");
 
-  // xt::xarray<double, xt::layout_type::row_major> S({num_ao,num_ao});
   std::vector<double> S_vec;
   load_double(S_vec, "../../data/S.txt");
   auto S = xt::adapt(S_vec, {num_ao, num_ao});
@@ -91,14 +83,10 @@ int main(int argc, char const *argv[]) {
   // loop variables
   int iteration_num = 0;
   double E_total = 0.0;
-  // double E_elec = 0.0;
-  // double E_elec_last = 0.0;
   xt::xarray<double> E_elec;
   xt::xarray<double> E_elec_last;
   xt::xarray<double> iteration_E_diff;
   xt::xarray<double> iteration_rmsc_dm;
-  // double iteration_E_diff = 0.0;
-  // double iteration_rmsc_dm = 0.0;
   bool converged = false;
   bool exceeded_iterations = false;
 
@@ -166,17 +154,3 @@ int main(int argc, char const *argv[]) {
   return 0;
 }
 
-/*
-
-    # calculate energy change of iteration
-    iteration_E_diff = np.abs(E_elec - E_elec_last)
-    # rms change of density matrix
-    iteration_rmsc_dm = np.sqrt(np.sum((D - D_last)**2))
-    if(np.abs(iteration_E_diff) < convergence_E and iteration_rmsc_dm <
-convergence_DM): converged = True if(iteration_num == iteration_max):
-        exceeded_iterations = True
-
-E_total = E_elec + E_nuc
-
-// print("{:<20.15f}".format(E_total))
-*/
