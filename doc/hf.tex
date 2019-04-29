@@ -22,8 +22,8 @@
 \begin{document}
 \maketitle
 
-Here, we will be preforming the Hartree-Fock self consistent field method for a water molecule in the cc-pVDZ method. 
-This method finds mean field solution to the electronic structure Hamiltonian. 
+Here, we will be preforming the Hartree-Fock self consistent field method for a water molecule with the cc-pVDZ basis. 
+This method finds mean field solution to the electronic Hamiltonian. 
 
 \section{Load Data}
 \begin{enumerate}
@@ -32,14 +32,32 @@ This method finds mean field solution to the electronic structure Hamiltonian.
 \item Load in the nuclear repulsion energy \texttt{data/E\_nuc.txt}, the number of electrons alpha \texttt{data/num\_elec\_alpha.txt}, the number of electrons beta \texttt{data/num\_elec\_beta.txt}, and the number of atomic orbitals \texttt{data/num\_ao.txt}.
 \end{enumerate}
 
-\section{Load Data}
+\section{Set up}
+Hartree-Fock is an iterative method, and these iterations are concluded when we reach some \textit{convergence criteria}. The convergence criteria we use  here are on the electronic energy and root mean squared change of the density matrix.
 
+For the Hartree-Fock method, we need some starting guess. The easiest starting guess is to start the density matrix as all zeros. This is sometimes called the ``H Core'' guess since the core Hamiltonian is diagonalized at the first iteration.
+
+
+\begin{enumerate}
+\item Specifically, we will need to store: 
+\begin{itemize}
+\item iteration number \texttt{iteration\_num (int)}
+\item current density matrix \texttt{D (array of doubles size [num\_ao, num\_ao])}
+\item previous density matrix \texttt{D\_last (same type and size as D)}
+\item current electronic energy \texttt{E\_elec (double)}
+\item previous electronic energy \texttt{E\_elec\_last (double)}
+\item electronic energy difference \texttt{iteration\_E\_diff (double)}
+\item density matrix root mean squared difference \texttt{iteration\_rmsc\_dm (double)}
+\item flags for convergence or exceeding iteration \texttt{converged (bool), exceeded\_iterations (bool)}
+\end{itemize}
+
+\item The HF eigenvalue problem $FC = ESC$ is a generalized eigenvalue problem. This is because we are working in a nonorthogonal atomic orbital basis. We can simply this to a standard eigenvalue problem $FC' = EC'$ by rotating to an orthogonal basis.
+\end{enumerate}
+
+\section{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Citations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\bibliographystyle{precomp.bst}
-\bibliography{precomp.bib}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % End
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
