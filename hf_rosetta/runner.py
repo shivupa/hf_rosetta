@@ -69,7 +69,6 @@ def main(languages):
     print("Choose a program:")
     for i,key in enumerate(languages):
         print("\t{}. {}".format(i+1,key))
-    print("\t{}. {}".format(len(languages)+1,"All"))
     program = (int)(input("Enter a value: ")) - 1
     print("{:#<79}".format(""))
     try:
